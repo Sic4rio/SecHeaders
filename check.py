@@ -4,10 +4,7 @@ import http.client
 import urllib.request
 import urllib.error
 import socket
-import json
-from optparse import OptionParser
 from tabulate import tabulate
-
 
 class Colors:
     HEADER = '\033[95m'
@@ -18,7 +15,6 @@ class Colors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-
 
 class SecurityHeadersChecker:
     def __init__(self):
@@ -110,65 +106,39 @@ class SecurityHeadersChecker:
             else:
                 missing_headers.append(header)
 
-        self.log(f'Security Headers')
-        self.log(f'Found: {Colors.OKGREEN}{len(found_headers)}{Colors.ENDC}')
-        self.log(tabulate(found_headers, headers=["Header", "Value"], tablefmt="pipe"))
-        self.log(f'Missing: {Colors.FAIL}{len(missing_headers)}{Colors.ENDC}')
-        self.log('\n'.join(missing_headers))
+        self.log('')
+        self.log('=' * 50)
+        self.log(f'[*] Analyzing headers of {self.headers.get("effective-url", "Unknown")}')
+        self.log(f'[*] Effective URL: {self.headers.get("effective-url", "Unknown")}')
+        for header, value in found_headers:
+            self.log(f'[*] Header {header} is present! (Value: {Colors.OKGREEN}{value}{Colors.ENDC})')
+        for header in missing_headers:
+            self.log(f'[!] Missing security header: {Colors.FAIL}{header}{Colors.ENDC}')
+        self.log('-' * 50)
+        self.log(f'[!] Headers analyzed for {self.headers.get("effective-url", "Unknown")}')
+        self.log(f'[+] There are {Colors.OKGREEN}{len(found_headers)}{Colors.ENDC} security headers')
+        self.log(f'[-] There are not {Colors.FAIL}{len(missing_headers)}{Colors.ENDC} security headers')
         self.log('')
 
     def main(self):
-        parser = OptionParser()
-        parser.add_option("-p", "--proxy", dest="proxy", help="Use a proxy server (e.g. http://proxy:8080)")
-        parser.add_option("-d", "--disable-ssl", action="store_true", dest="ssldisabled",
-                          help="Disable SSL/TLS certificate verification")
-        parser.add_option("-j", "--json", action="store_true", dest="jsonoutput",
-                          help="Output results in JSON format")
-        parser.add_option("-f", "--file", dest="targetfile",
-                          help="Load targets from file (one target per line)")
-        (options, args) = parser.parse_args()
-
-        self.proxy = options.proxy
-        self.ssldisabled = options.ssldisabled
-        self.json_output = options.jsonoutput
-        self.targetfile = options.targetfile
-
         banner = r"""
    _____           __  __               __              
   / ___/___  _____/ / / /__  ____ _____/ /__  __________
   \__ \/ _ \/ ___/ /_/ / _ \/ __ `/ __  / _ \/ ___/ ___/
  ___/ /  __/ /__/ __  /  __/ /_/ / /_/ /  __/ /  (__  ) 
 /____/\___/\___/_/ /_/\___/\__,_/\__,_/\___/_/  /____/  
-	Security Header Check Sicario | 2023
-                                                               
+    Security Header Check Sicario | 2023
 """
 
         self.log(Colors.HEADER + banner + Colors.ENDC)
 
-        if self.targetfile:
-            if not os.path.isfile(self.targetfile):
-                print(f'{Colors.FAIL}Target file not found: {self.targetfile}{Colors.ENDC}')
-                sys.exit(1)
-
-            with open(self.targetfile, 'r') as f:
-                targets = [line.rstrip('\n') for line in f]
-
-            for target in targets:
-                self.log(f'Checking {target}')
-                self.build_opener(self.proxy, self.ssldisabled)
-                self.headers = self.check_target(target)
-                if self.headers:
-                    self.report()
-                self.log('')
-        else:
-            target = input('Enter a target: ')
-            self.build_opener(self.proxy, self.ssldisabled)
-            self.headers = self.check_target(target)
-            if self.headers:
-                self.report()
+        target = input('Enter a target: ')
+        self.build_opener(self.proxy, self.ssldisabled)
+        self.headers = self.check_target(target)
+        if self.headers:
+            self.report()
 
 
 if __name__ == "__main__":
     checker = SecurityHeadersChecker()
     checker.main()
-
