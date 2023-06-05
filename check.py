@@ -132,7 +132,19 @@ class SecurityHeadersChecker:
 
         self.log(Colors.HEADER + banner + Colors.ENDC)
 
+        if len(sys.argv) > 1 and sys.argv[1] == '-h':
+            self.log('Usage: python script.py [target]')
+            self.log('Options:')
+            self.log('  -h       Display this help menu')
+            return
+
         target = input('Enter a target: ')
+        if target == '-h':
+            self.log('Usage: python script.py [target]')
+            self.log('Options:')
+            self.log('  -h       Display this help menu')
+            return
+
         self.build_opener(self.proxy, self.ssldisabled)
         self.headers = self.check_target(target)
         if self.headers:
@@ -141,4 +153,8 @@ class SecurityHeadersChecker:
 
 if __name__ == "__main__":
     checker = SecurityHeadersChecker()
-    checker.main()
+    try:
+        checker.main()
+    except KeyboardInterrupt:
+        checker.log('\nExiting...')
+        sys.exit(0)
