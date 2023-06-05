@@ -39,6 +39,7 @@ The tool will check the security headers for each URL in the file and provide th
 # Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+
 License
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
