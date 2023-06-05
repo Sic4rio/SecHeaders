@@ -34,7 +34,7 @@ If you have a list of target URLs, you can provide them in a file (one URL per l
 
     python security_headers_checker.py -f targets.txt
 ```
-    The tool will check the security headers for each URL in the file and provide the results individually.
+The tool will check the security headers for each URL in the file and provide the results individually.
 
 # Contributing
 
