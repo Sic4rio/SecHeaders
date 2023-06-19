@@ -56,6 +56,7 @@ class SecurityHeadersChecker:
             context.check_hostname = False
             context.verify_mode = ssl.CERT_NONE
             opener.add_handler(urllib.request.HTTPSHandler(context=context))
+        opener.addheaders = [('Content-Type', 'application/json')]  # Add the Content-Type header
         urllib.request.install_opener(opener)
 
     def parse_headers(self, headers):
@@ -80,6 +81,7 @@ class SecurityHeadersChecker:
             req = urllib.request.Request(target, headers=self.headers)
             response = urllib.request.urlopen(req, timeout=5)
             self.parse_headers(response.headers.items())
+            self.headers['effective-url'] = response.geturl()  # Include the effective URL in the headers
             response.close()
         except (urllib.error.HTTPError, urllib.error.URLError, http.client.BadStatusLine, ssl.SSLError) as e:
             self.print_error(target, e)
@@ -99,6 +101,7 @@ class SecurityHeadersChecker:
         found_headers = []
         missing_headers = []
 
+        effective_url = self.headers.get("effective-url", "Unknown")
         for header in self.sec_headers:
             header_value = self.headers.get(header.lower(), None)
             if header_value:
@@ -108,14 +111,14 @@ class SecurityHeadersChecker:
 
         self.log('')
         self.log('=' * 50)
-        self.log(f'[*] Analyzing headers of {self.headers.get("effective-url", "Unknown")}')
-        self.log(f'[*] Effective URL: {self.headers.get("effective-url", "Unknown")}')
+        self.log(f'[*] Analyzing headers of {Colors.OKGREEN}{effective_url}{Colors.ENDC}')
+        self.log(f'[*] Effective URL: {Colors.OKGREEN}{effective_url}{Colors.ENDC}')
         for header, value in found_headers:
             self.log(f'[*] Header {header} is present! (Value: {Colors.OKGREEN}{value}{Colors.ENDC})')
         for header in missing_headers:
             self.log(f'[!] Missing security header: {Colors.FAIL}{header}{Colors.ENDC}')
         self.log('-' * 50)
-        self.log(f'[!] Headers analyzed for {self.headers.get("effective-url", "Unknown")}')
+        self.log(f'[!] Headers analyzed for {Colors.OKGREEN}{effective_url}{Colors.ENDC}')
         self.log(f'[+] There are {Colors.OKGREEN}{len(found_headers)}{Colors.ENDC} security headers')
         self.log(f'[-] There are not {Colors.FAIL}{len(missing_headers)}{Colors.ENDC} security headers')
         self.log('')
