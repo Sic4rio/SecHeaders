@@ -119,8 +119,8 @@ class SecurityHeadersChecker:
             self.log(f'[!] Missing security header: {Colors.FAIL}{header}{Colors.ENDC}')
         self.log('-' * 50)
         self.log(f'[!] Headers analyzed for {Colors.OKGREEN}{effective_url}{Colors.ENDC}')
-        self.log(f'[+] There are {Colors.OKGREEN}{len(found_headers)}{Colors.ENDC} security headers')
-        self.log(f'[-] There are not {Colors.FAIL}{len(missing_headers)}{Colors.ENDC} security headers')
+        self.log(f'[+] There are {Colors.OKGREEN}{len(found_headers)}{Colors.ENDC} security headers enforced')
+        self.log(f'[-] There is {Colors.FAIL}{len(missing_headers)}{Colors.ENDC} security headers missing')
         self.log('')
 
     def main(self):
