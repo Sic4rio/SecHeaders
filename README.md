@@ -1,5 +1,8 @@
 
 # Security Headers Checker
+[![Python](https://img.shields.io/badge/Python-%E2%89%A5%203.x-yellow.svg)](https://www.python.org/) 
+<img src="https://img.shields.io/badge/Developed%20on-kali%20linux-blueviolet">
+<img src="https://img.shields.io/badge/Maintained%3F-Yes-96c40f">
 
 ![Banner](shot.png)
 
@@ -42,7 +45,7 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 License
 
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0) [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/stanislav-web)  
 
 
 This project is licensed under the MIT License.
