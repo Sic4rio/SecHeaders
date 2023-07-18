@@ -31,13 +31,14 @@ python security_headers_checker.py
 ```
 4. Enter the target URL when prompted. The tool will check the security headers of the target website and display the results.
 
-If you have a list of target URLs, you can provide them in a file (one URL per line) and pass the file as a command-line argument:
+If you would like to output results to a html file, use the following syntax: 
 
 ```
 
-    python security_headers_checker.py 
+    python security_headers_checker.py -o 
 ```
-The tool will check the security headers for each URL in the file and provide the results individually.
+check the current directory for the omitted file.
+
 
 # Contributing
 
