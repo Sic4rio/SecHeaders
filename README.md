@@ -34,8 +34,7 @@ python security_headers_checker.py
 If you would like to output results to a html file, use the following syntax: 
 
 ```
-
-    python security_headers_checker.py -o 
+python security_headers_checker.py -o 
 ```
 check the current directory for the omitted file.
 
