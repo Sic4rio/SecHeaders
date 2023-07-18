@@ -14,15 +14,15 @@ Security Headers Checker is a command-line tool to check the security headers of
 
 
 ```
-   git clone https://github.com/your-username/security-headers-checker.git
-   cd security-headers-checker
+git clone https://github.com/your-username/security-headers-checker.git
+cd security-headers-checker
 ```
 
 2. Install the required dependencies:
 
 ```
 
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 3. Run script
 
