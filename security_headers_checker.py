@@ -726,7 +726,7 @@ class SecurityHeadersChecker:
   \__ \/ _ \/ ___/ /_/ / _ \/ __ `/ __  / _ \/ ___/ ___/
  ___/ /  __/ /__/ __  /  __/ /_/ / /_/ /  __/ /  (__  )
 /____/\___/\___/_/ /_/\___/\__,_/\__,_/\___/_/  /____/
-    Security Header Check (IONIZE)
+    Security Header Check (Sicario)
 """
         if not self.json_out:
             self.log(Colors.HEADER + banner + Colors.ENDC)
